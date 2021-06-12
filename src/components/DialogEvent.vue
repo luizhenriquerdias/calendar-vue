@@ -39,6 +39,7 @@ import {
 import Dialog from 'components/Base/Dialog.vue';
 import { useStore } from 'vuex';
 import { formatDate } from 'src/util/date';
+import { notify } from 'src/util/notify';
 import ColorButton from 'components/Base/ColorButton.vue';
 import cities from 'util/city.list.json';
 
@@ -76,14 +77,31 @@ export default defineComponent({
 				options.value = cities.filter(({ name }) => name.toLowerCase().slice(0, needle.length) === needle);
 			});
 		};
-		const onSave = () => {
-			saving.value = true;
-			setTimeout(() => {
-				store.dispatch('SET_EVENT', { ...event, id: store.state.selectedEventId });
-				saving.value = false;
-				onClose();
-			}, 1000);
+
+		const validate = () => new Promise((resolve, reject) => {
+			if (!event.reminder)
+				return reject('Please, set a reminder');
+			if (!event.city)
+				return reject('Please, select a city');
+			if ((!event.time && !event.allDay) || /^\d\d:\d\d$/.test(event.time))
+				return reject('Please, enter a valid time');
+			return resolve();
+		});
+
+		const onSave = async () => {
+			try {
+				await validate();
+				saving.value = true;
+				setTimeout(async () => {
+					store.dispatch('SET_EVENT', { ...event, id: store.state.selectedEventId });
+					saving.value = false;
+					onClose();
+				}, 1000);
+			} catch (error) {
+				notify(error, 'negative');
+			}
 		};
+
 		return {
 			isNew,
 			event,
