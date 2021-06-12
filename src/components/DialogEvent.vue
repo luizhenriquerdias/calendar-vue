@@ -1,12 +1,12 @@
 <template>
 	<Dialog title="Event" :deletable="!isNew" @close="onClose" @save="onSave" :saving="saving">
-		<div class="row q-col-gutter-sm">
+		<div class="row q-col-gutter-md">
 			<div class="text-bold col-12 q-mb-sm">{{ formatDate(event.date, 'MMM Do, YYYY') }}</div>
 			<q-input v-model="event.reminder" class="col-12" filled label="Reminder" counter
 				maxlength="30" />
-			<q-select filled v-model="event.city" class="col-12" use-input input-debounce="0"
+			<q-select filled v-model="event.city" class="col-12 q-mb-md" use-input input-debounce="0"
 				label="City"
-				:options="options" option-value="id" option-label="name" hint="Please, type at least 2 characters to search"
+				:options="options" option-value="id" option-label="name" :placeholder="!event.city ? 'Please, type at least 2 characters to search' : ''"
 				@filter="filterFn"/>
 			<div class="col-12 row">
 				<q-input filled v-model="event.time" mask="time" class="col-9" :disable="event.allDay">
@@ -62,7 +62,7 @@ export default defineComponent({
 			city: null
 		};
 		if (store.state.selectedEventId && store.state.events[store.state.selectedDate])
-			obj = store.state.events[store.state.selectedDate].find(item => item.id === store.state.selectedEventId) || obj;
+			obj = { ...(store.state.events[store.state.selectedDate].find(item => item.id === store.state.selectedEventId) || obj) };
 		const event = reactive(obj);
 		const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
 		const options = ref(cities);
@@ -83,7 +83,7 @@ export default defineComponent({
 				return reject('Please, set a reminder');
 			if (!event.city)
 				return reject('Please, select a city');
-			if ((!event.time && !event.allDay) || /^\d\d:\d\d$/.test(event.time))
+			if ((!event.time && !event.allDay) || !/^\d\d:\d\d$/.test(event.time))
 				return reject('Please, enter a valid time');
 			return resolve();
 		});

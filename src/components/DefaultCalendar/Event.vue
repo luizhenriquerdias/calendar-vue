@@ -3,12 +3,15 @@
 		<div v-if="!event.allDay" class="col-auto row items-center q-mr-xs">
 			<div class="badge" :class="getBGClassColor(event.color)" />
 		</div>
-		<span class="col reminder poppins" :class="event.allDay && 'text-white'">
-			{{ event.reminder }}
+		<span class="col reminder poppins row items-center" :class="event.allDay && 'text-white'">
+			{{ !event.allDay ? `${event.time} - ` : ''}}{{ event.reminder }}
 		</span>
 		<div class="col-auto row items-center">
 			<img v-if="weather" :src="getWeatherIconUrl(weather.icon)" />
 		</div>
+		<q-tooltip>
+			Some text as content of Tooltip
+		</q-tooltip>
 	</div>
 </template>
 
@@ -43,19 +46,18 @@ export default defineComponent({
 	padding: 2px;
 
 	.badge {
-		width: 8px;
-		height: 8px;
+		width: 12px;
+		height: 12px;
 		border-radius: 50%;
 	}
 
 	.reminder {
 		font-size: 0.8rem;
-		line-height: 12px;
 	}
 
 	img {
-		width: 16px;
-		height: 16px;
+		width: 24px;
+		height: 24px;
 	}
 }
 </style>

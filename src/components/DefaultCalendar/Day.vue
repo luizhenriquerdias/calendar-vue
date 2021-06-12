@@ -3,7 +3,9 @@
 		<div class="day text-bold" :class="dayNumClass">
 			{{ formatDate(date, 'DD') }}
 		</div>
-		<Event v-for="event in events" :key="event.id" :event="event" @click="crudEvent(event.id)" />
+		<div class="q-pb-lg">
+			<Event v-for="event in events" :key="event.id" :event="event" @click="crudEvent(event.id)" />
+		</div>
 		<q-btn flat icon="fas fa-plus" round size="xs" @click="crudEvent(null)" />
 	</div>
 </template>
