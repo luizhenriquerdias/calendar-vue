@@ -1,5 +1,5 @@
 <template>
-	<div class="container" :class="weekend ? 'bg-grey-5' : 'bg-white'">
+	<div class="container" :class="containerClass">
 		<div class="day text-bold" :class="dayNumClass">
 			{{ formatDate(date, 'DD') }}
 		</div>
@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import moment from 'moment';
 import { formatDate, isWeekend } from 'src/util/date';
 import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
@@ -24,16 +23,23 @@ export default defineComponent({
 		const weekend = computed(() => isWeekend(props.date));
 		const store = useStore();
 		const dayNumClass = computed(() => {
-			const date = moment(props.date);
-			if (formatDate(date, 'MM') !== formatDate(store.state.currentMonth, 'MM'))
+			if (formatDate(props.date, 'MM') !== formatDate(store.state.currentMonth, 'MM'))
 				return 'text-grey-6';
-			if (isWeekend(date))
+			if (isWeekend(props.date))
 				return 'text-primary';
 			return null;
+		});
+		const containerClass = computed(() => {
+			if (formatDate(props.date, 'YYYY-MM-DD') === formatDate(null, 'YYYY-MM-DD'))
+				return 'bg-orange-3';
+			if (isWeekend(props.date))
+				return 'bg-grey-5';
+			return 'bg-white';
 		});
 		return {
 			formatDate,
 			dayNumClass,
+			containerClass,
 			weekend
 		};
 	}

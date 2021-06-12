@@ -1,5 +1,5 @@
 import moment from 'moment';
 
-export const formatDate = (date, format = 'DD/MM/YYYY') => moment(date).format(format);
+export const formatDate = (date, format = 'DD/MM/YYYY') => moment(date || moment()).format(format);
 
-export const isWeekend = date => moment(date).day() === 0 || moment(date).day() === 6;
+export const isWeekend = date => moment(date || moment()).day() === 0 || moment(date).day() === 6;
