@@ -8,30 +8,26 @@
 					round
 					icon="menu"
 					aria-label="Menu"
-					@click="toggleLeftDrawer"/>
+					@click="leftDrawerOpen = !leftDrawerOpen"/>
 
 				<q-toolbar-title>
-					Quasar App
+					Vue Calendar
 				</q-toolbar-title>
 
-				<div>Quasar v{{ $q.version }}</div>
+				<q-icon name="fab fa-linkedin" size="md" class="pointer" @click="openLinkedin" />
 			</q-toolbar>
 		</q-header>
 
-		<q-drawer
-			v-model="leftDrawerOpen"
-			show-if-above
-			bordered
-			class="bg-grey-1">
+		<q-drawer v-model="leftDrawerOpen" show-if-above bordered class="bg-grey-1">
 			<q-list>
 				<q-item-label
 					header
 					class="text-grey-8">
-					Essential Links
+					Calendars
 				</q-item-label>
 
 				<EssentialLink
-					v-for="link in essentialLinks"
+					v-for="link in pagesList"
 					:key="link.title"
 					v-bind="link"/>
 			</q-list>
@@ -45,70 +41,40 @@
 
 <script>
 import EssentialLink from 'components/EssentialLink.vue';
-
-const linksList = [
-	{
-		title: 'Docs',
-		caption: 'quasar.dev',
-		icon: 'school',
-		link: 'https://quasar.dev'
-	},
-	{
-		title: 'Github',
-		caption: 'github.com/quasarframework',
-		icon: 'code',
-		link: 'https://github.com/quasarframework'
-	},
-	{
-		title: 'Discord Chat Channel',
-		caption: 'chat.quasar.dev',
-		icon: 'chat',
-		link: 'https://chat.quasar.dev'
-	},
-	{
-		title: 'Forum',
-		caption: 'forum.quasar.dev',
-		icon: 'record_voice_over',
-		link: 'https://forum.quasar.dev'
-	},
-	{
-		title: 'Twitter',
-		caption: '@quasarframework',
-		icon: 'rss_feed',
-		link: 'https://twitter.quasar.dev'
-	},
-	{
-		title: 'Facebook',
-		caption: '@QuasarFramework',
-		icon: 'public',
-		link: 'https://facebook.quasar.dev'
-	},
-	{
-		title: 'Quasar Awesome',
-		caption: 'Community Quasar projects',
-		icon: 'favorite',
-		link: 'https://awesome.quasar.dev'
-	}
-];
-
+import { useStore } from 'vuex';
 import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
 	name: 'MainLayout',
-
-	components: {
-		EssentialLink
-	},
-
+	components: { EssentialLink },
 	setup() {
+		const store = useStore();
+		store.dispatch('INIT_CALENDAR');
 		const leftDrawerOpen = ref(false);
 
-		return {
-			essentialLinks: linksList,
-			leftDrawerOpen,
-			toggleLeftDrawer() {
-				leftDrawerOpen.value = !leftDrawerOpen.value;
+		const pagesList = [
+			{
+				title: 'Default calendar',
+				caption: 'The default calendar',
+				icon: 'far fa-calendar-alt',
+				route: 'https://quasar.dev'
+			},
+			{
+				title: 'Modern calendar',
+				caption: 'A modern calendar',
+				icon: 'far fa-star',
+				route: 'https://github.com/quasarframework'
 			}
+		];
+
+		const openLinkedin = () => {
+			window.open('https://www.linkedin.com/in/luizhenriquerdias/', '_blank');
+		};
+
+		return {
+			pagesList,
+			openLinkedin,
+			leftDrawerOpen
 		};
 	}
 });
