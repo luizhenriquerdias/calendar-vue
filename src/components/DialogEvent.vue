@@ -1,5 +1,5 @@
 <template>
-	<Dialog title="Event" :deletable="true" @close="onClose" @save="onSave" :saving="saving">
+	<Dialog title="Event" :deletable="!isNew" @close="onClose" @save="onSave" :saving="saving">
 		<div class="row q-col-gutter-sm">
 			<div class="text-bold col-12 q-mb-sm">{{ formatDate(event.date, 'MMM Do, YYYY') }}</div>
 			<q-input v-model="event.reminder" class="col-12" filled label="Reminder" counter
@@ -8,20 +8,23 @@
 				label="City"
 				:options="options" option-value="id" option-label="name" hint="Please, type at least 2 characters to search"
 				@filter="filterFn"/>
-			<q-input filled v-model="event.time" class="col-12" mask="time" :rules="['time']">
-				<template v-slot:append>
-					<q-icon name="access_time" class="cursor-pointer">
-						<q-popup-proxy transition-show="scale" transition-hide="scale">
-							<q-time v-model="event.time" format24h >
-								<div class="row items-center justify-end">
-									<q-btn v-close-popup label="Close" color="primary" flat />
-								</div>
-							</q-time>
-						</q-popup-proxy>
-					</q-icon>
-				</template>
-			</q-input>
-			<div class="row col-12">
+			<div class="col-12 row">
+				<q-input filled v-model="event.time" mask="time" class="col-9" :disable="event.allDay">
+					<template v-slot:append>
+						<q-icon name="access_time" class="cursor-pointer">
+							<q-popup-proxy transition-show="scale" transition-hide="scale">
+								<q-time v-model="event.time" format24h >
+									<div class="row items-center justify-end">
+										<q-btn v-close-popup label="Close" color="primary" flat />
+									</div>
+								</q-time>
+							</q-popup-proxy>
+						</q-icon>
+					</template>
+				</q-input>
+				<q-toggle class="col-3" v-model="event.allDay" label="All day"/>
+			</div>
+			<div class="row col-12 q-mt-sm">
 				<ColorButton v-for="color in colors" :key="color" :color="color" :selected="event.color === color"
 					@input="color => event.color = color" />
 			</div>
@@ -53,6 +56,7 @@ export default defineComponent({
 			date: store.state.selectedDate,
 			reminder: '',
 			color: '',
+			allDay: false,
 			time: `${formatDate(null, 'HH')}:00`,
 			city: null
 		});
@@ -72,7 +76,7 @@ export default defineComponent({
 		const onSave = () => {
 			saving.value = true;
 			setTimeout(() => {
-				store.commit('SAVE_EVENT', { ...event });
+				store.commit('SAVE_EVENT', { ...event, id: store.state.selectedEventId });
 				saving.value = false;
 				onClose();
 			}, 1000);

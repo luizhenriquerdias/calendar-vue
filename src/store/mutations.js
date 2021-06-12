@@ -33,7 +33,13 @@ export const SAVE_EVENT = (state, event) => {
 			state.events[event.date].items.splice(i, 1, event);
 	} else
 		state.events[event.date].items.push({ ...event, id: v4() });
-	state.events[event.date].items.sort((a, b) => a.time.localeCompare(b.time));
+	state.events[event.date].items.sort((a, b) => {
+		if (a.allDay)
+			return -1;
+		if (b.allDay)
+			return 1;
+		return a.time.localeCompare(b.time);
+	});
 };
 
 export const DELETE_EVENT = (state, event) => {
