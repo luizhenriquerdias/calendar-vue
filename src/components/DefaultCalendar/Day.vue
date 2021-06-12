@@ -3,6 +3,7 @@
 		<div class="day text-bold" :class="dayNumClass">
 			{{ formatDate(date, 'DD') }}
 		</div>
+		<Event v-for="event in events" :key="event.id" :event="event" @click="crudEvent(event.id)" />
 		<q-btn flat icon="fas fa-plus" round size="xs" @click="crudEvent(null)" />
 	</div>
 </template>
@@ -11,9 +12,11 @@
 import { formatDate, isWeekend } from 'src/util/date';
 import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
+import Event from './Event.vue';
 
 export default defineComponent({
 	name: 'Day',
+	components: { Event },
 	props: {
 		date: {
 			type: String,
@@ -22,6 +25,7 @@ export default defineComponent({
 	},
 	setup(props) {
 		const store = useStore();
+		const events = computed(() => store.state.events[props.date] || []);
 		const dayNumClass = computed(() => {
 			if (formatDate(props.date, 'MM') !== formatDate(store.state.currentMonth, 'MM'))
 				return 'text-grey-6';
@@ -40,6 +44,7 @@ export default defineComponent({
 			store.commit('CRUD_EVENT', { eventId, date: props.date });
 		};
 		return {
+			events,
 			crudEvent,
 			formatDate,
 			dayNumClass,

@@ -48,18 +48,22 @@ export default defineComponent({
 	setup() {
 		const saving = ref(false);
 		const store = useStore();
+		console.log(store.state.selectedEventId);
 		const isNew = computed(() => !store.state.selectedEventId);
 		const onClose = () => {
 			store.commit('CRUD_EVENT', { eventId: null, date: null });
 		};
-		const event = reactive({
+		let obj = {
 			date: store.state.selectedDate,
 			reminder: '',
 			color: '',
 			allDay: false,
 			time: `${formatDate(null, 'HH')}:00`,
 			city: null
-		});
+		};
+		if (store.state.selectedEventId && store.state.events[store.state.selectedDate])
+			obj = store.state.events[store.state.selectedDate].find(item => item.id === store.state.selectedEventId) || obj;
+		const event = reactive(obj);
 		const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
 		const options = ref(cities);
 		const filterFn = (val, update, abort) => {

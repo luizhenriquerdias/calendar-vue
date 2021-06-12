@@ -20,20 +20,19 @@ export const UPDATE_MONTH = (state, num) => {
 
 export const CRUD_EVENT = (state, { eventId, date }) => {
 	state.selectedDate = date;
-	if (eventId)
-		state.selectedEventId = eventId;
+	state.selectedEventId = eventId;
 };
 
 export const SAVE_EVENT = (state, event) => {
 	if (!state.events[event.date])
-		state.events[event.date] = { items: [] };
+		state.events[event.date] = [];
 	if (event.id) {
-		const i = state.events[event.date].items.findIndex(item => item.id === event.id);
+		const i = state.events[event.date].findIndex(item => item.id === event.id);
 		if (i !== -1)
-			state.events[event.date].items.splice(i, 1, event);
+			state.events[event.date].splice(i, 1, event);
 	} else
-		state.events[event.date].items.push({ ...event, id: v4() });
-	state.events[event.date].items.sort((a, b) => {
+		state.events[event.date].push({ ...event, id: v4() });
+	state.events[event.date].sort((a, b) => {
 		if (a.allDay)
 			return -1;
 		if (b.allDay)
@@ -44,9 +43,9 @@ export const SAVE_EVENT = (state, event) => {
 
 export const DELETE_EVENT = (state, event) => {
 	const events = state.events[event.date];
-	if (events && events.items) {
-		const i = events.items.findIndex(item => item.id === event.id);
+	if (events) {
+		const i = events.findIndex(item => item.id === event.id);
 		if (i !== -1)
-			events.items.splice(i, 1);
+			events.splice(i, 1);
 	}
 };
