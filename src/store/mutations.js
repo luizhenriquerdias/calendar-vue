@@ -49,3 +49,7 @@ export const DELETE_EVENT = (state, event) => {
 			events.splice(i, 1);
 	}
 };
+
+export const SAVE_WEATHER = (state, { event, weather }) => {
+	state.weathers[event.city.id] = weather;
+};

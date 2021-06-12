@@ -6,6 +6,7 @@ export default function () {
 		selectedEventId: null,
 		currentMonth: moment().format('YYYY-MM-DD'),
 		calendar: [],
-		events: {}
+		events: {},
+		weathers: {}
 	};
 }

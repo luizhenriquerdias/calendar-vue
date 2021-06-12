@@ -48,7 +48,6 @@ export default defineComponent({
 	setup() {
 		const saving = ref(false);
 		const store = useStore();
-		console.log(store.state.selectedEventId);
 		const isNew = computed(() => !store.state.selectedEventId);
 		const onClose = () => {
 			store.commit('CRUD_EVENT', { eventId: null, date: null });
@@ -80,7 +79,7 @@ export default defineComponent({
 		const onSave = () => {
 			saving.value = true;
 			setTimeout(() => {
-				store.commit('SAVE_EVENT', { ...event, id: store.state.selectedEventId });
+				store.dispatch('SET_EVENT', { ...event, id: store.state.selectedEventId });
 				saving.value = false;
 				onClose();
 			}, 1000);

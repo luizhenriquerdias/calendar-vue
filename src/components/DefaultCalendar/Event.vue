@@ -6,12 +6,16 @@
 		<span class="col reminder poppins" :class="event.allDay && 'text-white'">
 			{{ event.reminder }}
 		</span>
+		<div class="col-auto row items-center">
+			<img v-if="weather" :src="getWeatherIconUrl(weather.icon)" />
+		</div>
 	</div>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
-import { getBGClassColor } from 'util/functions';
+import { defineComponent, computed } from 'vue';
+import { getBGClassColor, getWeatherIconUrl } from 'util/functions';
+import { useStore } from 'vuex';
 
 export default defineComponent({
 	name: 'Event',
@@ -21,8 +25,14 @@ export default defineComponent({
 			required: true
 		}
 	},
-	setup() {
-		return { getBGClassColor };
+	setup(props) {
+		const store = useStore();
+		const weather = computed(() => store.state.weathers[props.event.city.id]);
+		return {
+			weather,
+			getBGClassColor,
+			getWeatherIconUrl
+		};
 	}
 });
 </script>
@@ -40,6 +50,12 @@ export default defineComponent({
 
 	.reminder {
 		font-size: 0.8rem;
+		line-height: 12px;
+	}
+
+	img {
+		width: 16px;
+		height: 16px;
 	}
 }
 </style>
