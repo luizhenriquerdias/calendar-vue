@@ -1,27 +1,16 @@
-import { store } from 'quasar/wrappers';
 import { createStore } from 'vuex';
+import state from './state';
+import mutations from './mutations';
+import actions from './actions';
 
-// import example from './module-example'
+const store = createStore({
+	mutations,
+	actions,
+	state,
 
-/*
- * If not building with SSR mode, you can
- * directly export the Store instantiation;
- *
- * The function below can be async too; either use
- * async/await or return a Promise which resolves
- * with the Store instance.
- */
-
-export default store((/* { ssrContext } */) => {
-	const Store = createStore({
-		modules: {
-			// example
-		},
-
-		// enable strict mode (adds overhead!)
-		// for dev mode and --debug builds only
-		strict: process.env.DEBUGGING
-	});
-
-	return Store;
+	// enable strict mode (adds overhead!)
+	// for dev mode and --debug builds only
+	strict: process.env.DEBUGGING
 });
+
+export default store;
