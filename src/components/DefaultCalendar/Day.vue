@@ -3,6 +3,7 @@
 		<div class="day text-bold" :class="dayNumClass">
 			{{ formatDate(date, 'DD') }}
 		</div>
+		<q-btn flat icon="fas fa-plus" round size="xs" @click="crudEvent(null)" />
 	</div>
 </template>
 
@@ -20,7 +21,6 @@ export default defineComponent({
 		}
 	},
 	setup(props) {
-		const weekend = computed(() => isWeekend(props.date));
 		const store = useStore();
 		const dayNumClass = computed(() => {
 			if (formatDate(props.date, 'MM') !== formatDate(store.state.currentMonth, 'MM'))
@@ -36,11 +36,14 @@ export default defineComponent({
 				return 'bg-grey-5';
 			return 'bg-white';
 		});
+		const crudEvent = eventId => {
+			store.commit('CRUD_EVENT', { eventId, date: props.date });
+		};
 		return {
+			crudEvent,
 			formatDate,
 			dayNumClass,
-			containerClass,
-			weekend
+			containerClass
 		};
 	}
 });
@@ -50,9 +53,26 @@ export default defineComponent({
 .container {
 	height: 100%;
 	padding: 4px;
+	position: relative;
 
 	.day {
 		font-size: 0.75rem;
+	}
+
+	.q-btn {
+		position: absolute;
+		bottom: 4px;
+		right: 4px;
+		opacity: 0;
+		transform: translateX(50%);
+		transition: all 300ms ease-in-out;
+	}
+
+	&:hover {
+		.q-btn {
+			opacity: 1;
+			transform: translateX(0%);
+		}
 	}
 }
 </style>

@@ -37,20 +37,25 @@
 			<router-view />
 		</q-page-container>
 	</q-layout>
+	<q-dialog :model-value="dialog" persistent>
+		<DialogEvent />
+	</q-dialog>
 </template>
 
 <script>
 import EssentialLink from 'components/EssentialLink.vue';
+import DialogEvent from 'src/components/DialogEvent.vue';
 import { useStore } from 'vuex';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 
 export default defineComponent({
 	name: 'MainLayout',
-	components: { EssentialLink },
+	components: { EssentialLink, DialogEvent },
 	setup() {
 		const store = useStore();
 		store.dispatch('INIT_CALENDAR');
 		const leftDrawerOpen = ref(false);
+		const dialog = computed(() => !!store.state.selectedDate);
 
 		const pagesList = [
 			{
@@ -72,6 +77,7 @@ export default defineComponent({
 		};
 
 		return {
+			dialog,
 			pagesList,
 			openLinkedin,
 			leftDrawerOpen
