@@ -38,8 +38,8 @@ $gap: 1px;
 
 	.day {
 		margin: calc(#{$gap} / 2);
-		min-height: 80px;
-		min-width: 150px;
+		min-height: 70px;
+		min-width: 140px;
 	}
 }
 </style>
