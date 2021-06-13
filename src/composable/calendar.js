@@ -13,6 +13,11 @@ export const useCalendar = date => {
 		store.commit('CRUD_EVENT', { eventId, date });
 	};
 
+	const destroyAll = () => {
+		if (date)
+			store.commit('DELETE_ALL_EVENTS', date);
+	};
+
 	const currentMonth = computed(() => store.state.currentMonth);
 
 	const calendar = computed(() => store.state.calendar);
@@ -21,6 +26,7 @@ export const useCalendar = date => {
 		calendar,
 		crudEvent,
 		formatDate,
+		destroyAll,
 		changeMonth,
 		currentMonth
 	};

@@ -6,7 +6,9 @@
 		<div class="q-pb-lg">
 			<Event v-for="event in events" :key="event.id" :event="event" @click="crudEvent(event.id)" />
 		</div>
-		<q-btn flat icon="fas fa-plus" round size="xs" @click="crudEvent(null)" />
+		<div class="btn-container">
+			<ActionButtons @crud="crudEvent(null)" @destroy="destroyAll" />
+		</div>
 	</div>
 </template>
 
@@ -14,11 +16,12 @@
 import { defineComponent } from 'vue';
 import { useCalendar } from 'composable/calendar';
 import { useDay } from 'composable/day';
+import ActionButtons from 'components/ActionsButtons.vue';
 import Event from './Event.vue';
 
 export default defineComponent({
 	name: 'Day',
-	components: { Event },
+	components: { Event, ActionButtons },
 	props: {
 		date: {
 			type: String,
@@ -27,12 +30,13 @@ export default defineComponent({
 	},
 	setup(props) {
 		const { dayNumClass, containerClass, events } = useDay(props.date);
-		const { crudEvent, formatDate } = useCalendar(props.date);
+		const { crudEvent, formatDate, destroyAll } = useCalendar(props.date);
 
 		return {
 			events,
 			crudEvent,
 			formatDate,
+			destroyAll,
 			dayNumClass,
 			containerClass
 		};
@@ -45,12 +49,13 @@ export default defineComponent({
 	height: 100%;
 	padding: 4px;
 	position: relative;
+	max-width: 150px;
 
 	.day {
 		font-size: 0.75rem;
 	}
 
-	.q-btn {
+	.btn-container {
 		position: absolute;
 		bottom: 4px;
 		right: 4px;
@@ -60,7 +65,7 @@ export default defineComponent({
 	}
 
 	&:hover {
-		.q-btn {
+		.btn-container {
 			opacity: 1;
 			transform: translateX(0%);
 		}

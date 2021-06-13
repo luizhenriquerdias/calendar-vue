@@ -57,3 +57,7 @@ export const SAVE_WEATHER = (state, { event, weather }) => {
 export const SAVE_LAST_CITY = (state, city) => {
 	state.lastCity = city;
 };
+
+export const DELETE_ALL_EVENTS = (state, date) => {
+	state.events[date] = [];
+};

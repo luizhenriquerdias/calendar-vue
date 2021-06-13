@@ -5,7 +5,9 @@
 				<div class="poppins">
 					{{ formatDate(date, 'DD') }}
 				</div>
-				<q-btn flat icon="fas fa-plus" size="sm" round @click="crudEvent(null)" />
+				<div class="btn-container">
+					<ActionButtons @crud="crudEvent(null)" @destroy="destroyAll" />
+				</div>
 			</div>
 			<Event v-for="event in events" :key="event.id" :event="event" @click="crudEvent(event.id)" />
 		</div>
@@ -16,11 +18,12 @@
 import { defineComponent } from 'vue';
 import { useDay } from 'composable/day';
 import { useCalendar } from 'composable/calendar';
+import ActionButtons from 'components/ActionsButtons.vue';
 import Event from './Event.vue';
 
 export default defineComponent({
 	name: 'Day',
-	components: { Event },
+	components: { Event, ActionButtons },
 	props: {
 		date: {
 			type: String,
@@ -29,13 +32,14 @@ export default defineComponent({
 	},
 	setup(props) {
 		const { isToday, isFromAnotherMonth, events } = useDay(props.date);
-		const { crudEvent, formatDate } = useCalendar(props.date);
+		const { crudEvent, formatDate, destroyAll } = useCalendar(props.date);
 
 		return {
 			events,
 			isToday,
 			crudEvent,
 			formatDate,
+			destroyAll,
 			isFromAnotherMonth
 		};
 	}
@@ -80,16 +84,16 @@ export default defineComponent({
 		font-size: 1.5rem;
 	}
 
-	.q-btn {
+	.btn-container {
 		opacity: 0;
 		transform: translateX(50%);
 		transition: all 300ms ease-in-out;
 	}
 
 	&:hover {
-		.q-btn {
+		.btn-container {
 			opacity: 1;
-			transform: translateX(25%);
+			transform: translateX(0%);
 		}
 	}
 }
