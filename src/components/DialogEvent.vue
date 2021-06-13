@@ -6,7 +6,7 @@
 				maxlength="30" />
 			<q-select filled v-model="event.city" class="col-12 q-mb-md" use-input input-debounce="0"
 				label="City"
-				:options="options" option-value="id" option-label="name" :placeholder="!event.city ? 'Please, type at least 2 characters to search' : ''"
+				:options="options" option-value="id" option-label="name" :placeholder="!event.city ? 'Please, type at least 2 characters to search (only US cities)' : ''"
 				@filter="filterFn"/>
 			<div class="col-12 row">
 				<q-input filled v-model="event.time" mask="time" class="col-9" :disable="event.allDay">

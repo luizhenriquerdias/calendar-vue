@@ -9,8 +9,13 @@
 		<div class="col-auto row items-center">
 			<img v-if="weather" :src="getWeatherIconUrl(weather.icon)" />
 		</div>
-		<q-tooltip>
-			Some text as content of Tooltip
+		<q-tooltip v-if="weather">
+			<div>
+				{{ event.city.name }}
+			</div>
+			<div>
+				Weather: {{ weather.description }}
+			</div>
 		</q-tooltip>
 	</div>
 </template>
