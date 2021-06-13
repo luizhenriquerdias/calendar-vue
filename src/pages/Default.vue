@@ -5,9 +5,9 @@
 				<span>{{ formatDate(store.state.currentMonth, 'MMMM - YYYY') }}</span>
 				<span>
 					<q-btn flat round color="primary" icon="fas fa-chevron-up" class="q-mr-sm"
-						@click="changeMonth(-1)" />
+						@click="changeMonth(store, -1)" />
 					<q-btn flat round color="primary" icon="fas fa-chevron-down" class="q-ml-sm"
-						@click="changeMonth(1)" />
+						@click="changeMonth(store, 1)" />
 				</span>
 			</div>
 			<DefaultCalendar />
@@ -20,15 +20,13 @@ import { defineComponent } from 'vue';
 import DefaultCalendar from 'components/DefaultCalendar';
 import { useStore } from 'vuex';
 import { formatDate } from 'util/date';
+import { changeMonth } from 'mixin/calendar';
 
 export default defineComponent({
 	name: 'Default',
 	components: { DefaultCalendar },
 	setup() {
 		const store = useStore();
-		const changeMonth = num => {
-			store.dispatch('CHANGE_MONTH', num);
-		};
 		return {
 			store,
 			formatDate,

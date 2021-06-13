@@ -23,6 +23,9 @@
       "boot/*": [
         "src/boot/*"
       ],
+      "mixin/*": [
+        "src/mixin/*"
+      ],
       "store/*": [
         "src/store/*"
       ],

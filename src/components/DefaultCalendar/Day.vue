@@ -4,7 +4,7 @@
 			{{ formatDate(date, 'DD') }}
 		</div>
 		<div class="q-pb-lg">
-			<Event v-for="event in events" :key="event.id" :event="event" @click="crudEvent(event.id)" />
+			<Event v-for="event in events" :key="event.id" :event="event" @click="onClick(event.id)" />
 		</div>
 		<q-btn flat icon="fas fa-plus" round size="xs" @click="crudEvent(null)" />
 	</div>
@@ -14,6 +14,7 @@
 import { formatDate, isWeekend } from 'src/util/date';
 import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
+import { crudEvent } from 'mixin/calendar';
 import Event from './Event.vue';
 
 export default defineComponent({
@@ -42,12 +43,12 @@ export default defineComponent({
 				return 'bg-grey-5';
 			return 'bg-white';
 		});
-		const crudEvent = eventId => {
-			store.commit('CRUD_EVENT', { eventId, date: props.date });
+		const onClick = eventId => {
+			crudEvent(store, eventId, props.date);
 		};
 		return {
 			events,
-			crudEvent,
+			onClick,
 			formatDate,
 			dayNumClass,
 			containerClass
