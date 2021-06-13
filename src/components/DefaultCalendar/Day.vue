@@ -4,17 +4,17 @@
 			{{ formatDate(date, 'DD') }}
 		</div>
 		<div class="q-pb-lg">
-			<Event v-for="event in events" :key="event.id" :event="event" @click="onClick(event.id)" />
+			<Event v-for="event in events" :key="event.id" :event="event" @click="crudEvent(event.id)" />
 		</div>
 		<q-btn flat icon="fas fa-plus" round size="xs" @click="crudEvent(null)" />
 	</div>
 </template>
 
 <script>
-import { formatDate, isWeekend } from 'src/util/date';
-import { computed, defineComponent } from 'vue';
-import { useStore } from 'vuex';
-import { crudEvent } from 'mixin/calendar';
+import { formatDate } from 'src/util/date';
+import { defineComponent } from 'vue';
+import { useCalendar } from 'composable/calendar';
+import { useDay } from 'composable/day';
 import Event from './Event.vue';
 
 export default defineComponent({
@@ -27,28 +27,12 @@ export default defineComponent({
 		}
 	},
 	setup(props) {
-		const store = useStore();
-		const events = computed(() => store.state.events[props.date] || []);
-		const dayNumClass = computed(() => {
-			if (formatDate(props.date, 'MM') !== formatDate(store.state.currentMonth, 'MM'))
-				return 'text-grey-6';
-			if (isWeekend(props.date))
-				return 'text-primary';
-			return null;
-		});
-		const containerClass = computed(() => {
-			if (formatDate(props.date, 'YYYY-MM-DD') === formatDate(null, 'YYYY-MM-DD'))
-				return 'bg-orange-3';
-			if (isWeekend(props.date))
-				return 'bg-grey-5';
-			return 'bg-white';
-		});
-		const onClick = eventId => {
-			crudEvent(store, eventId, props.date);
-		};
+		const { dayNumClass, containerClass, events } = useDay(props.date);
+		const { crudEvent } = useCalendar(props.date);
+
 		return {
 			events,
-			onClick,
+			crudEvent,
 			formatDate,
 			dayNumClass,
 			containerClass

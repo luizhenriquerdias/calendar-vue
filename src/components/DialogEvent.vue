@@ -44,7 +44,7 @@ import { notify } from 'src/util/notify';
 import ColorButton from 'components/Base/ColorButton.vue';
 import cities from 'util/city.list.json';
 import { useQuasar } from 'quasar';
-import { crudEvent } from 'mixin/calendar';
+import { useCalendar } from 'composable/calendar';
 
 export default defineComponent({
 	name: 'DialogEvent',
@@ -55,8 +55,9 @@ export default defineComponent({
 		const destroying = ref(false);
 		const store = useStore();
 		const isNew = computed(() => !store.state.selectedEventId);
+		const { crudEvent } = useCalendar(null);
 		const onClose = () => {
-			crudEvent(store, null, null);
+			crudEvent(null);
 		};
 		let obj = {
 			date: store.state.selectedDate,

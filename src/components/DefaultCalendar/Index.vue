@@ -1,9 +1,9 @@
 <template>
 	<div class="calendar">
-		<div v-for="date in store.state.calendar.slice(0, 7)" :key="date" class="bg-primary font-bold text-white text-center">
+		<div v-for="date in calendar.slice(0, 7)" :key="date" class="bg-primary font-bold text-white text-center">
 			{{ formatDate(date, 'dddd') }}
 		</div>
-		<div v-for="date in store.state.calendar" :key="date" class="day">
+		<div v-for="date in calendar" :key="date" class="day">
 			<Day :date="date" />
 		</div>
 	</div>
@@ -11,17 +11,16 @@
 
 <script>
 import { defineComponent } from 'vue';
-import { useStore } from 'vuex';
-import { formatDate } from 'util/date';
+import { useCalendar } from 'composable/calendar';
 import Day from './Day.vue';
 
 export default defineComponent({
 	name: 'DefaultCalendar',
 	components: { Day },
 	setup() {
-		const store = useStore();
+		const { calendar, formatDate } = useCalendar();
 		return {
-			store,
+			calendar,
 			formatDate
 		};
 	}

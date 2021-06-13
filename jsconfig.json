@@ -23,8 +23,8 @@
       "boot/*": [
         "src/boot/*"
       ],
-      "mixin/*": [
-        "src/mixin/*"
+      "composable/*": [
+        "src/composable/*"
       ],
       "store/*": [
         "src/store/*"

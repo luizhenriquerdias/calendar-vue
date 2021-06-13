@@ -2,12 +2,12 @@
 	<q-page class="flex flex-center">
 		<div class="calendar-container">
 			<div class="row justify-between items-center q-px-lg q-py-sm">
-				<span>{{ formatDate(store.state.currentMonth, 'MMMM - YYYY') }}</span>
+				<span>{{ formatDate(currentMonth, 'MMMM - YYYY') }}</span>
 				<span>
 					<q-btn flat round color="primary" icon="fas fa-chevron-up" class="q-mr-sm"
-						@click="changeMonth(store, -1)" />
+						@click="changeMonth(-1)" />
 					<q-btn flat round color="primary" icon="fas fa-chevron-down" class="q-ml-sm"
-						@click="changeMonth(store, 1)" />
+						@click="changeMonth(1)" />
 				</span>
 			</div>
 			<DefaultCalendar />
@@ -18,19 +18,18 @@
 <script>
 import { defineComponent } from 'vue';
 import DefaultCalendar from 'components/DefaultCalendar';
-import { useStore } from 'vuex';
 import { formatDate } from 'util/date';
-import { changeMonth } from 'mixin/calendar';
+import { useCalendar } from 'composable/calendar';
 
 export default defineComponent({
 	name: 'Default',
 	components: { DefaultCalendar },
 	setup() {
-		const store = useStore();
+		const { changeMonth, currentMonth } = useCalendar();
 		return {
-			store,
 			formatDate,
-			changeMonth
+			changeMonth,
+			currentMonth
 		};
 	}
 });

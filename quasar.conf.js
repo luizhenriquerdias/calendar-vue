@@ -76,7 +76,7 @@ module.exports = configure(ctx => ({
 			chain.resolve.alias
 				.set('api', path.resolve(__dirname, './src/api'))
 				.set('util', path.resolve(__dirname, './src/util'))
-				.set('mixin', path.resolve(__dirname, './src/mixin'))
+				.set('composable', path.resolve(__dirname, './src/composable'))
 				.set('store', path.resolve(__dirname, './src/store'));
 		}
 	},
