@@ -2,7 +2,7 @@
 	<q-page padding>
 		<div class="row items-center justify-between">
 			<span>
-				<div class="row items-center justify-between">
+				<div class="row items-center justify-between title">
 					<h1 class="text-bold">{{ formatDate(currentMonth, 'MMM\' YYYY') }}</h1>
 					<span class="row items-center ">
 						<q-btn flat round color="primary" icon="fas fa-chevron-left"
@@ -12,7 +12,6 @@
 							@click="changeMonth(1)" />
 					</span>
 				</div>
-				<p>Here you can find all information about your events</p>
 			</span>
 			<q-btn color="primary" label="Add event today" @click="crudEvent(null)" />
 		</div>
@@ -43,6 +42,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.title {
+	min-width: 300px;
+}
+
 .bull {
 	font-size: 4rem;
 	margin-bottom: 9px;

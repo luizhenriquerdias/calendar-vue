@@ -7,6 +7,7 @@
 				</div>
 				<q-btn flat icon="fas fa-plus" size="sm" round @click="crudEvent(null)" />
 			</div>
+			<Event v-for="event in events" :key="event.id" :event="event" @click="crudEvent(event.id)" />
 		</div>
 	</div>
 </template>
@@ -15,9 +16,11 @@
 import { defineComponent } from 'vue';
 import { useDay } from 'composable/day';
 import { useCalendar } from 'composable/calendar';
+import Event from './Event.vue';
 
 export default defineComponent({
 	name: 'Day',
+	components: { Event },
 	props: {
 		date: {
 			type: String,
@@ -25,10 +28,11 @@ export default defineComponent({
 		}
 	},
 	setup(props) {
-		const { isToday, isFromAnotherMonth } = useDay(props.date);
+		const { isToday, isFromAnotherMonth, events } = useDay(props.date);
 		const { crudEvent, formatDate } = useCalendar(props.date);
 
 		return {
+			events,
 			isToday,
 			crudEvent,
 			formatDate,
