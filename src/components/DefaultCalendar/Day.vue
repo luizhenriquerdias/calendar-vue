@@ -7,7 +7,7 @@
 			<Event v-for="event in events" :key="event.id" :event="event" @click="crudEvent(event.id)" />
 		</div>
 		<div class="btn-container">
-			<ActionButtons @crud="crudEvent(null)" @destroy="destroyAll" />
+			<ActionButtons :show-destroy="events.length > 0" size="xs" @crud="crudEvent(null)" @destroy="destroyAll" />
 		</div>
 	</div>
 </template>

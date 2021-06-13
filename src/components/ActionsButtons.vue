@@ -1,7 +1,9 @@
 <template>
 	<div class="row">
-		<q-btn flat icon="fas fa-plus" :size="size" round @click="emit('crud')" />
-		<q-btn flat icon="far fa-trash-alt" :size="size" round @click="destroy" />
+		<q-btn flat icon="fas fa-plus" :size="size" round
+			@click="emit('crud')" />
+		<q-btn v-if="showDestroy" flat icon="far fa-trash-alt" :size="size" round
+			@click="destroy" />
 	</div>
 </template>
 
@@ -15,6 +17,10 @@ export default defineComponent({
 		size: {
 			type: String,
 			default: 'sm'
+		},
+		showDestroy: {
+			type: Boolean,
+			default: false
 		}
 	},
 	setup(props, { emit }) {
