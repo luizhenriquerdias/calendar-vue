@@ -9,9 +9,11 @@
 			<slot />
 		</div>
 		<div class="row">
-			<q-btn v-if="deletable" label="Delete" color="negative" flat @click="emit('destroy')" />
+			<q-btn v-if="deletable" label="Delete" color="negative" flat :loading="destroying"
+				@click="emit('destroy')" />
 			<q-space />
-			<q-btn label="Save" color="primary" @click="emit('save')" :loading="saving" />
+			<q-btn label="Save" color="primary" :loading="saving"
+				@click="emit('save')"/>
 		</div>
 	</div>
 </template>
@@ -27,6 +29,10 @@ export default defineComponent({
 			required: true
 		},
 		saving: {
+			type: Boolean,
+			default: false
+		},
+		destroying: {
 			type: Boolean,
 			default: false
 		},

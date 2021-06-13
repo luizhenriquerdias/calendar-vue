@@ -39,7 +39,4 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.calendar-container {
-	max-width: 50vw;
-}
 </style>

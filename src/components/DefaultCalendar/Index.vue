@@ -36,7 +36,6 @@ $gap: 1px;
 	grid-template-columns: repeat(7, 1fr);
 	padding: $gap;
 	background: #333;
-	max-width: 50vw;
 
 	.day {
 		margin: calc(#{$gap} / 2);

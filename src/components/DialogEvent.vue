@@ -1,5 +1,6 @@
 <template>
-	<Dialog title="Event" :deletable="!isNew" @close="onClose" @save="onSave" :saving="saving">
+	<Dialog title="Event" :deletable="!isNew" :saving="saving" :destroying="destroying"
+		@close="onClose" @save="onSave" @destroy="destroy">
 		<div class="row q-col-gutter-md">
 			<div class="text-bold col-12 q-mb-sm">{{ formatDate(event.date, 'MMM Do, YYYY') }}</div>
 			<q-input v-model="event.reminder" class="col-12" filled label="Reminder" counter
@@ -42,12 +43,15 @@ import { formatDate } from 'src/util/date';
 import { notify } from 'src/util/notify';
 import ColorButton from 'components/Base/ColorButton.vue';
 import cities from 'util/city.list.json';
+import { useQuasar } from 'quasar';
 
 export default defineComponent({
 	name: 'DialogEvent',
 	components: { Dialog, ColorButton },
 	setup() {
+		const $q = useQuasar();
 		const saving = ref(false);
+		const destroying = ref(false);
 		const store = useStore();
 		const isNew = computed(() => !store.state.selectedEventId);
 		const onClose = () => {
@@ -95,11 +99,42 @@ export default defineComponent({
 				setTimeout(async () => {
 					store.dispatch('SET_EVENT', { ...event, id: store.state.selectedEventId });
 					saving.value = false;
+					notify('Event saved successfully');
 					onClose();
 				}, 1000);
 			} catch (error) {
 				notify(error, 'negative');
 			}
+		};
+
+		const doDestroy = () => {
+			destroying.value = true;
+			setTimeout(() => {
+				store.commit('DELETE_EVENT', { ...event });
+				destroying.value = false;
+				notify('Event deleted successfully');
+				onClose();
+			}, 1000);
+		};
+
+		const destroy = () => {
+			$q.dialog({
+				title: 'Warning!',
+				message: 'Are you sure you want to delete this event? This action cannot be undone.',
+				ok: {
+					unelevated: true,
+					label: 'Yes, delete',
+					color: 'negative'
+				},
+				cancel: {
+					flat: true,
+					unelevated: true,
+					label: 'Cancel'
+				},
+				persistent: true
+			}).onOk(() => {
+				doDestroy();
+			});
 		};
 
 		return {
@@ -111,6 +146,8 @@ export default defineComponent({
 			onClose,
 			options,
 			filterFn,
+			destroy,
+			destroying,
 			formatDate
 		};
 	}
