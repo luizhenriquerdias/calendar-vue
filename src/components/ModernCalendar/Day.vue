@@ -59,7 +59,7 @@ export default defineComponent({
 	}
 
 	&.another-month {
-		.poppins, .q-btn {
+		.poppins, :deep(.q-btn) {
 			color: $grey-4;
 		}
 
@@ -71,7 +71,7 @@ export default defineComponent({
 	&.today {
 		background: $grey-3;
 
-		.poppins, .q-btn {
+		.poppins, :deep(.q-btn) {
 			color: $primary
 		}
 
