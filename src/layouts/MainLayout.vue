@@ -34,8 +34,13 @@
 		</q-drawer>
 
 		<q-page-container>
-			<router-view />
-		</q-page-container>
+			<router-view v-slot="{ Component }">
+				<transition name="page" mode="out-in" >
+					<component :is="Component" />
+				</transition>
+			</router-view>
+		</q-page-container>,
+
 	</q-layout>
 	<q-dialog :model-value="dialog" persistent>
 		<DialogEvent />

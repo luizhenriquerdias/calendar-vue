@@ -1,0 +1,12 @@
+.page-enter-active,
+.page-leave-active {
+	transition: opacity 0.3s, transform 0.3s;
+}
+.page-enter {
+	opacity: 0;
+	transform: translateX(-15px);
+}
+.page-leave-to {
+	opacity: 0;
+	transform: translateX(15px);
+}

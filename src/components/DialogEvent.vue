@@ -1,6 +1,6 @@
 <template>
 	<Dialog title="Event" :deletable="!isNew" :saving="saving" :destroying="destroying"
-		@close="onClose" @save="onSave" @destroy="destroy">
+		@close="close" @save="onSave" @destroy="destroy">
 		<div class="row q-col-gutter-md">
 			<div class="text-bold col-12 q-mb-sm">{{ formatDate(event.date, 'MMM Do, YYYY') }}</div>
 			<q-input v-model="event.reminder" class="col-12" filled label="Reminder" counter
@@ -56,7 +56,7 @@ export default defineComponent({
 		const store = useStore();
 		const isNew = computed(() => !store.state.selectedEventId);
 		const { crudEvent } = useCalendar(null);
-		const onClose = () => {
+		const close = () => {
 			crudEvent(null);
 		};
 		let obj = {
@@ -104,7 +104,7 @@ export default defineComponent({
 					store.dispatch('SET_EVENT', { ...event, id: store.state.selectedEventId });
 					saving.value = false;
 					notify('Event saved successfully');
-					onClose();
+					close();
 				}, 1000);
 			} catch (error) {
 				notify(error, 'negative');
@@ -117,7 +117,7 @@ export default defineComponent({
 				store.commit('DELETE_EVENT', { ...event });
 				destroying.value = false;
 				notify('Event deleted successfully');
-				onClose();
+				close();
 			}, 1000);
 		};
 
@@ -147,7 +147,7 @@ export default defineComponent({
 			colors,
 			saving,
 			onSave,
-			onClose,
+			close,
 			options,
 			filterFn,
 			destroy,
