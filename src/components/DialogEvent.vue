@@ -1,8 +1,7 @@
 <template>
-	<Dialog title="Event" :deletable="!isNew" :saving="saving" :destroying="destroying"
+	<Dialog :title="formatDate(event.date, 'MMM Do, YYYY')" :deletable="!isNew" :saving="saving" :destroying="destroying"
 		@close="close" @save="onSave" @destroy="destroy">
 		<div class="row q-col-gutter-md">
-			<div class="text-bold col-12 q-mb-sm">{{ formatDate(event.date, 'MMM Do, YYYY') }}</div>
 			<q-input v-model="event.reminder" class="col-12" filled label="Reminder" counter
 				maxlength="30" />
 			<q-select filled v-model="event.city" class="col-12 q-mb-md" use-input input-debounce="0"
