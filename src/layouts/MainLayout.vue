@@ -62,13 +62,13 @@ export default defineComponent({
 				title: 'Default calendar',
 				caption: 'The default calendar',
 				icon: 'far fa-calendar-alt',
-				route: 'https://quasar.dev'
+				name: 'Default'
 			},
 			{
 				title: 'Modern calendar',
 				caption: 'A modern calendar',
 				icon: 'far fa-star',
-				route: 'https://github.com/quasarframework'
+				name: 'Modern'
 			}
 		];
 

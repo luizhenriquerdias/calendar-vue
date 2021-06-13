@@ -1,9 +1,5 @@
 <template>
-	<q-item
-		clickable
-		tag="a"
-		target="_blank"
-		:href="link">
+	<q-item clickable @click="navigate">
 		<q-item-section
 			v-if="icon"
 			avatar>
@@ -21,6 +17,7 @@
 
 <script>
 import { defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
 	name: 'EssentialLink',
@@ -29,21 +26,27 @@ export default defineComponent({
 			type: String,
 			required: true
 		},
-
 		caption: {
 			type: String,
 			default: ''
 		},
-
-		link: {
+		name: {
 			type: String,
-			default: '#'
+			required: true
 		},
-
 		icon: {
 			type: String,
 			default: ''
 		}
+	},
+	setup(props) {
+		const router = useRouter();
+		const navigate = () => {
+			router.push({ name: props.name });
+		};
+		return {
+			navigate
+		};
 	}
 });
 </script>
