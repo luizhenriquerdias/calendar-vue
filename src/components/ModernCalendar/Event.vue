@@ -1,6 +1,6 @@
 <template>
 	<div class="row items-center event-container q-px-sm q-mb-xs pointer" :class="event.allDay && bgClassColor">
-		<span v-if="!event.allDay" class="col-auto q-pr-sm text-bold" :class="`text-${event.color}`">{{ event.time }}</span>
+		<span v-if="!event.allDay" class="col-auto q-pr-sm text-bold" :class="`text-${event.color}-8`">{{ event.time }}</span>
 		<span class="col text-bold" :class="event.allDay && 'text-white'">{{event.reminder}}</span>
 		<Icon class="col-auto" v-if="weather" :icon="weather.icon" />
 		<Tooltip v-if="weather" :cityName="event.city.name" :weatherDescription="weather.description" />
