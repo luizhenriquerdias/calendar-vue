@@ -1,6 +1,7 @@
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import { formatDate } from 'util/date';
+import { notify } from 'src/util/notify';
 
 export const useCalendar = date => {
 	const store = useStore();
@@ -14,8 +15,10 @@ export const useCalendar = date => {
 	};
 
 	const destroyAll = () => {
-		if (date)
+		if (date) {
 			store.commit('DELETE_ALL_EVENTS', date);
+			notify('Events deleted successfully');
+		}
 	};
 
 	const currentMonth = computed(() => store.state.currentMonth);

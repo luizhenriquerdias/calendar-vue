@@ -6,7 +6,7 @@ export const useEvent = props => {
 
 	const getWeatherIconUrl = icon => `http://openweathermap.org/img/wn/${icon}@2x.png`;
 
-	const bgClassColor = computed(() => `bg-${props.event.color}-4`);
+	const bgClassColor = computed(() => `bg-${props.event.color}-7`);
 
 	const weather = computed(() => store.state.weathers[props.event.city.id]);
 
