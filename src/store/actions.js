@@ -10,6 +10,7 @@ export const CHANGE_MONTH = ({ commit }, num) => {
 
 export const SET_EVENT = ({ commit, state }, event) => {
 	commit('SAVE_EVENT', event);
+	commit('SAVE_LAST_CITY', event.city);
 	if (!state.weathers[event.city.id]) {
 		getWeatherByCityId(event.city.id)
 			.then(({ weather }) => {

@@ -53,3 +53,7 @@ export const DELETE_EVENT = (state, event) => {
 export const SAVE_WEATHER = (state, { event, weather }) => {
 	state.weathers[event.city.id] = weather;
 };
+
+export const SAVE_LAST_CITY = (state, city) => {
+	state.lastCity = city;
+};

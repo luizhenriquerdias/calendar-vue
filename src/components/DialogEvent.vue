@@ -63,7 +63,7 @@ export default defineComponent({
 			color: '',
 			allDay: false,
 			time: `${formatDate(null, 'HH')}:00`,
-			city: null
+			city: store.state.lastCity
 		};
 		if (store.state.selectedEventId && store.state.events[store.state.selectedDate])
 			obj = { ...(store.state.events[store.state.selectedDate].find(item => item.id === store.state.selectedEventId) || obj) };
@@ -87,6 +87,8 @@ export default defineComponent({
 				return reject('Please, set a reminder');
 			if (!event.city)
 				return reject('Please, select a city');
+			if (!event.color)
+				return reject('Please, select a color');
 			if ((!event.time && !event.allDay) || !/^\d\d:\d\d$/.test(event.time))
 				return reject('Please, enter a valid time');
 			return resolve();
