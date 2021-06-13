@@ -1,13 +1,15 @@
 <template>
-	<q-page>
-		oi
-	</q-page>
+	Day
 </template>
 
 <script>
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-	name: 'Modern'
+	name: 'Day'
 });
 </script>
+
+<style lang="scss" scoped>
+
+</style>

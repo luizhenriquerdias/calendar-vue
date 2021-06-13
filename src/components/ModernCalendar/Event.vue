@@ -1,13 +1,15 @@
 <template>
-	<q-page>
-		oi
-	</q-page>
+	Event
 </template>
 
 <script>
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-	name: 'Modern'
+	name: 'Event'
 });
 </script>
+
+<style lang="scss" scoped>
+
+</style>
