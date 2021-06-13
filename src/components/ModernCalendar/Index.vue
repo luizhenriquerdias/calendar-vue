@@ -32,7 +32,7 @@ export default defineComponent({
 .calendar {
 	display: grid;
 	grid-template-columns: repeat(7, 1fr);
-	gap: 2rem;
+	gap: 1rem;
 
 	.header {
 		.title {

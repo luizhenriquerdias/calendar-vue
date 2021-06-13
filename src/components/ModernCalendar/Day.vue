@@ -1,15 +1,20 @@
 <template>
-	<div class="day" :class="{ 'today': isToday }">
-		<div class="poppins">
-			{{ formatDate(date, 'DD') }}
+	<div class="day" :class="{ 'today': isToday, 'another-month': isFromAnotherMonth }">
+		<div class="q-pa-sm">
+			<div class="row items-center justify-between">
+				<div class="poppins">
+					{{ formatDate(date, 'DD') }}
+				</div>
+				<q-btn flat icon="fas fa-plus" size="sm" round @click="crudEvent(null)" />
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import { formatDate } from 'src/util/date';
 import { defineComponent } from 'vue';
 import { useDay } from 'composable/day';
+import { useCalendar } from 'composable/calendar';
 
 export default defineComponent({
 	name: 'Day',
@@ -20,11 +25,14 @@ export default defineComponent({
 		}
 	},
 	setup(props) {
-		const { isToday } = useDay(props.date);
+		const { isToday, isFromAnotherMonth } = useDay(props.date);
+		const { crudEvent, formatDate } = useCalendar(props.date);
 
 		return {
 			isToday,
-			formatDate
+			crudEvent,
+			formatDate,
+			isFromAnotherMonth
 		};
 	}
 });
@@ -39,13 +47,23 @@ export default defineComponent({
 		display: block;
 		width: 100%;
 		height: 2px;
-		background: #444;
+		background: $grey-7;
+	}
+
+	&.another-month {
+		.poppins, .q-btn {
+			color: $grey-4;
+		}
+
+		&::before {
+			background: $grey-4;
+		}
 	}
 
 	&.today {
 		background: $grey-3;
 
-		.poppins {
+		.poppins, .q-btn {
 			color: $primary
 		}
 
@@ -58,5 +76,17 @@ export default defineComponent({
 		font-size: 1.5rem;
 	}
 
+	.q-btn {
+		opacity: 0;
+		transform: translateX(50%);
+		transition: all 300ms ease-in-out;
+	}
+
+	&:hover {
+		.q-btn {
+			opacity: 1;
+			transform: translateX(25%);
+		}
+	}
 }
 </style>

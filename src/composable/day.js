@@ -31,6 +31,7 @@ export const useDay = date => {
 		events,
 		isToday,
 		dayNumClass,
-		containerClass
+		containerClass,
+		isFromAnotherMonth
 	};
 };

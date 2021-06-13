@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import { formatDate } from 'src/util/date';
 import { defineComponent } from 'vue';
 import { useCalendar } from 'composable/calendar';
 import { useDay } from 'composable/day';
@@ -28,7 +27,7 @@ export default defineComponent({
 	},
 	setup(props) {
 		const { dayNumClass, containerClass, events } = useDay(props.date);
-		const { crudEvent } = useCalendar(props.date);
+		const { crudEvent, formatDate } = useCalendar(props.date);
 
 		return {
 			events,
